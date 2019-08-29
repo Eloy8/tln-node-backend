@@ -1,9 +1,15 @@
+const cors = require('cors')
 const express = require('express')
 require('./db/mongoose')
 const userRouter = require('./routers/user')
 const taskRouter = require('./routers/task')
 
 const app = express()
+
+app.use(cors())
+app.use(express.json())
+app.use(userRouter)
+app.use(taskRouter)
 
 // app.use((req, res, next) => {
 //   if (req.method === 'GET') {
@@ -38,22 +44,4 @@ app.post('/upload', upload.single('upload'), (req, res) => {
   res.status(400).send({ error: error.message})
 })
 
-app.use(express.json())
-app.use(userRouter, taskRouter)
-
 module.exports = app
-
-// const Task = require('./models/task')
-// const User = require('./models/user')
-
-// const main = async () => {
-//   // const task = await Task.findById('5d5d3a913dffd0384802cd94')
-//   // // Loads the data of another data instance via one reference!
-//   // await task.populate('owner').execPopulate()
-//   // console.log(task.owner)
-//   await user.populate('tasks').execPopulate()
-//   const user = await User.findById('5d5d3829ef55ed09d4dc3b3b')
-//   console.log(user.tasks)
-// }
-
-// main()
